@@ -12,6 +12,12 @@ var filterInputStream = inputStream.debounce(250)
 })
 .distinctUntilChanged();
 
+
+inputStream.filter(function(){
+  return input.value == "";
+}).subscribe(clearList);
+
+
 function querySpotify(value){
   return Rx.Observable.fromPromise(
     $.getJSON("https://api.spotify.com/v1/search?q="+value + "&type=artist"));
