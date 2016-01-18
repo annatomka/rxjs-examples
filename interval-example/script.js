@@ -2,7 +2,7 @@ var intervalStream = Rx.Observable.interval(1000)
   .filter(function(value){
     return value%2===0;
   })
-  .take(5)
+  .take(3)
   .map(function(value){
     return value+".";
   });
