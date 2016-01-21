@@ -22,6 +22,10 @@ In this example you can hover an image to see actual color. You can also click o
 
 > 2016-01-13
 
+<img style="margin: 0 auto;height: 200px;" src="images/mousetracking.gif"/>
+
 ### [Spotify autocomplete example](https://rxjs.firebaseapp.com/spotify-autocomplete-example/index.html)
 
 > 2016-01-13
+
+<img style="margin: 0 auto;height: 200px;" src="images/autocomplete.gif"/>

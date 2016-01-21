@@ -1,27 +1,31 @@
 (function () {
+    // find DOM elements
     var sampleImage = document.querySelector("#sample");
     var selectedColorsList = document.querySelector(".selected-colors");
     var actualColorDiv = document.querySelector(".actual-color");
     var actualColorLabel = document.querySelector(".actual-color-label");
     var canvas = document.createElement("canvas");
 
-    var w = sampleImage.clientWidth;
-    var h = sampleImage.clientHeight;
-
-    canvas.width = w;
-    canvas.height = h;
+    init();
 
     var mouseMoveStream = Rx.Observable.fromEvent(sampleImage, "mousemove")
-        .map(retrieveColorFromEvent).subscribe(function (color) {
-            addActualColor(color);
-        });
+        .map(retrieveColorFromEvent);
 
     var clickStream = Rx.Observable.fromEvent(sampleImage, "mousedown")
         .map(retrieveColorFromEvent).distinctUntilChanged();
 
+    mouseMoveStream.subscribe(function (color) {
+        addActualColor(color);
+    });
+
     clickStream.subscribe(function (color) {
         addSelectedColor(color);
     });
+
+    function init(){
+        canvas.width = sampleImage.clientWidth;
+        canvas.height = sampleImage.clientHeight;
+    }
 
     function retrieveColorFromEvent(event) {
         var point = {
@@ -29,9 +33,10 @@
             y: event.offsetY
         };
 
-        canvas.getContext('2d').drawImage(sampleImage, 0, 0, w, h);
+        canvas.getContext('2d').drawImage(sampleImage, 0, 0, canvas.width, canvas.height);
         var pixelData = canvas.getContext('2d').getImageData(point.x, point.y, 1, 1).data;
-        return "rgba(" + pixelData[0] + "," + pixelData[1] + "," + pixelData[2] + "," + pixelData[3] / 100 + ")";
+
+        return "rgba(" + pixelData[0] + "," + pixelData[1] + "," + pixelData[2] + "," + pixelData[3] / 255 + ")";
     }
 
     function addActualColor(color) {
